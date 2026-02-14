@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hussein.socialmedia.presentation.feed.screen.FeedScreen
+import com.hussein.socialmedia.presentation.setting.screen.SettingsScreen
 import com.hussein.socialmedia.ui.theme.SocialMediaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +29,10 @@ class MainActivity : ComponentActivity() {
                         onNavigateToProfile = {},
                         onNavigateToComments = {}
                     )
+                    /*SettingsScreen(
+                        onNavigateBack = {},
+                        onLogoutComplete = {}
+                    )*/
                 }
             }
         }
