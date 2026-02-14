@@ -324,18 +324,31 @@ fun `likePost should call repository and emit success`() = runTest {
 ### Enycrypted and secured datastore and shared preferences
   
 What's Encrypted (EncryptedPreferences):
+
 ✅ Auth tokens (JWT/Bearer)
+
 ✅ Refresh tokens
+
 ✅ User credentials
+
 ✅ Session IDs
+
 ✅ Device IDs
+
 What's in DataStore (Settings):
+
 ✅ Theme mode (reactive)
+
 ✅ Notifications enabled
+
 ✅ Feed layout preferences
+
 ✅ Privacy settings
+
 ✅ Language
+
 ✅ App launch count
+
 
 ### Async
 - **Coroutines**: Async operations
