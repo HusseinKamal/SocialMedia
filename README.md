@@ -102,11 +102,11 @@ sealed class FeedEffect {
 
 **Result Pattern**:
 ```kotlin
-sealed class Result<out T> {
-    data object Idle : Result<Nothing>()
-    data object Loading : Result<Nothing>()
-    data class Success<T>(val data: T) : Result<T>()
-    data class Error(val message: String, val throwable: Throwable?) : Result<Nothing>()
+sealed class Resource<out T> {
+    data object Idle : Resource<Nothing>()
+    data object Loading : Resource<Nothing>()
+    data class Success<T>(val data: T) : Resource<T>()
+    data class Error(val message: String, val throwable: Throwable?) : Resource<Nothing>()
 }
 ```
 
@@ -184,17 +184,17 @@ fun getFeedPosts(): Flow<PagingData<Post>> {
 
 **Example**:
 ```kotlin
-override suspend fun getPostById(postId: String): Result<Post> {
+override suspend fun getPostById(postId: String): Resource<Post> {
     return try {
         val postDto = postApi.getPostById(postId)
         postDao.insertPost(postDto.toEntity()) // Cache
-        Result.Success(postDto.toDomain())
+        Resource.Success(postDto.toDomain())
     } catch (e: Exception) {
         val cachedPost = postDao.getPostById(postId)
         if (cachedPost != null) {
-            Result.Success(cachedPost.toDomain())
+            Resource.Success(cachedPost.toDomain())
         } else {
-            Result.Error("Failed to load post")
+            Resource.Error("Failed to load post")
         }
     }
 }
@@ -350,52 +350,6 @@ fun `likePost should call repository and emit success`() = runTest {
 - **MockK**: Mocking
 - **Turbine**: Flow testing
 - **Coroutines Test**: Async testing
-
-## Module Structure
-
-```
-app/
-├── core/
-│   ├── data/
-│   │   ├── local/
-│   │   │   ├── dao/
-│   │   │   ├── entity/
-│   │   │   └── SocialMediaDatabase.kt
-│   │   ├── remote/
-│   │   │   ├── api/
-│   │   │   └── dto/
-│   │   └── mapper/
-│   ├── domain/
-│   │   ├── model/
-│   │   ├── repository/
-│   │   └── util/
-│   └── di/
-│
-├── feature/
-│   ├── feed/
-│   │   ├── data/
-│   │   │   ├── paging/
-│   │   │   └── repository/
-│   │   ├── domain/
-│   │   │   └── usecase/
-│   │   └── presentation/
-│   │       ├── model/
-│   │       ├── ui/
-│   │       ├── FeedViewModel.kt
-│   │       └── FeedContract.kt
-│   │
-│   ├── profile/
-│   │   ├── data/
-│   │   ├── domain/
-│   │   └── presentation/
-│   │
-│   └── chat/
-│       ├── data/
-│       ├── domain/
-│       └── presentation/
-│
-└── SocialMediaApplication.kt
-```
 
 ## State Management (MVI)
 
