@@ -219,19 +219,7 @@ val uiState by viewModel.uiState.collectAsState()
 
 ### 4. Type-Safe Navigation
 **Using Compose Navigation**:
-```kotlin
-NavHost(navController, startDestination = "feed") {
-    composable("feed") {
-        FeedScreen(
-            onNavigateToProfile = { userId ->
-                navController.navigate("profile/$userId")
-            }
-        )
-    }
-    composable("profile/{userId}") { backStackEntry ->
-        ProfileScreen(userId = backStackEntry.arguments?.getString("userId"))
-    }
-}
+New NNavigation Material3 
 ```
 
 ## Model Mapping Strategy
@@ -332,6 +320,22 @@ fun `likePost should call repository and emit success`() = runTest {
 - **Database**: Room
 - **Coroutines**: Flow integration
 - **Pagination**: PagingSource
+
+### Enycrypted and secured datastore and shared preferences
+  
+What's Encrypted (EncryptedPreferences):
+✅ Auth tokens (JWT/Bearer)
+✅ Refresh tokens
+✅ User credentials
+✅ Session IDs
+✅ Device IDs
+What's in DataStore (Settings):
+✅ Theme mode (reactive)
+✅ Notifications enabled
+✅ Feed layout preferences
+✅ Privacy settings
+✅ Language
+✅ App launch count
 
 ### Async
 - **Coroutines**: Async operations
