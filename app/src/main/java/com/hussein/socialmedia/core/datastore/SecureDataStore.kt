@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.hussein.socialmedia.data.setting.model.UserPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -387,16 +388,3 @@ class SecureDataStore @Inject constructor(
         }
     }
 }
-
-/**
- * Data class representing user preferences
- */
-data class UserPreferences(
-    val themeMode: String = "system",
-    val language: String = "en",
-    val notificationsEnabled: Boolean = true,
-    val autoPlayVideos: Boolean = false,
-    val showOnlineStatus: Boolean = true,
-    val readReceiptsEnabled: Boolean = true,
-    val feedLayout: String = "grid"
-)
