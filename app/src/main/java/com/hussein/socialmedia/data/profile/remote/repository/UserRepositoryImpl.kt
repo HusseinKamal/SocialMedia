@@ -1,6 +1,6 @@
 package com.hussein.socialmedia.data.profile.remote.repository
 
-import com.hussein.socialmedia.data.database.SocialMediaDatabase
+import com.hussein.socialmedia.core.database.SocialMediaDatabase
 import com.hussein.socialmedia.data.profile.remote.mapper.toDomain
 import com.hussein.socialmedia.data.profile.remote.mapper.toEntity
 import com.hussein.socialmedia.data.profile.remote.model.request.UpdateProfileRequest

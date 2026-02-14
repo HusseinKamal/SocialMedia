@@ -6,7 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.hussein.socialmedia.data.database.SocialMediaDatabase
+import com.hussein.socialmedia.core.database.SocialMediaDatabase
 import com.hussein.socialmedia.data.feed.remote.mapper.toDomain
 import com.hussein.socialmedia.data.feed.remote.mapper.toEntity
 import com.hussein.socialmedia.data.feed.remote.model.request.CreatePostRequest

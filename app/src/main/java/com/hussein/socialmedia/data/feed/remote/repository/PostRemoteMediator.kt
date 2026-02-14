@@ -5,7 +5,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.hussein.socialmedia.data.database.SocialMediaDatabase
+import com.hussein.socialmedia.core.database.SocialMediaDatabase
 import com.hussein.socialmedia.data.feed.local.PostEntity
 import com.hussein.socialmedia.data.feed.remote.mapper.toEntity
 import com.hussein.socialmedia.data.feed.remote.service.PostApi

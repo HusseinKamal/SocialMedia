@@ -105,7 +105,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit.gson)
-    implementation(libs.gson)
 
     // Paging 3
     implementation(libs.paging.runtime.ktx)

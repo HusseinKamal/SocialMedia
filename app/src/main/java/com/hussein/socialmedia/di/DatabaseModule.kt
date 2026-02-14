@@ -3,7 +3,7 @@ import android.content.Context
 import androidx.room.Room
 import com.hussein.socialmedia.data.chat.local.ChatDao
 import com.hussein.socialmedia.data.chat.local.MessageDao
-import com.hussein.socialmedia.data.database.SocialMediaDatabase
+import com.hussein.socialmedia.core.database.SocialMediaDatabase
 import com.hussein.socialmedia.data.feed.local.PostDao
 import com.hussein.socialmedia.data.profile.local.UserDao
 import dagger.Module

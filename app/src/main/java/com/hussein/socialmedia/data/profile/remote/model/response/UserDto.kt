@@ -1,40 +1,42 @@
 package com.hussein.socialmedia.data.profile.remote.model.response
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * Data Transfer Object for User from API.
  * Maps to JSON response from the API.
  */
 data class UserDto(
-    @param:SerializedName("id")
+    @SerializedName("id")
     val id: String,
 
-    @param:SerializedName("username")
+    @SerializedName("username")
     val username: String,
 
-    @param:SerializedName("email")
+    @SerializedName("email")
     val email: String,
 
-    @param:SerializedName("display_name")
+    @SerializedName("display_name")
     val displayName: String,
 
-    @param:SerializedName("avatar_url")
+    @SerializedName("avatar_url")
     val avatarUrl: String?,
 
-    @param:SerializedName("bio")
+    @SerializedName("bio")
     val bio: String?,
 
-    @param:SerializedName("followers_count")
+    @SerializedName("followers_count")
     val followersCount: Int,
 
-    @param:SerializedName("following_count")
+    @SerializedName("following_count")
     val followingCount: Int,
 
-    @param:SerializedName("posts_count")
+    @SerializedName("posts_count")
     val postsCount: Int,
 
-    @param:SerializedName("is_following")
+    @SerializedName("is_following")
     val isFollowing: Boolean,
 
-    @param:SerializedName("created_at")
+    @SerializedName("created_at")
     val createdAt: Long
 )

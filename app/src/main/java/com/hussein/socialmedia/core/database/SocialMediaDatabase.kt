@@ -1,4 +1,4 @@
-package com.hussein.socialmedia.data.database
+package com.hussein.socialmedia.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

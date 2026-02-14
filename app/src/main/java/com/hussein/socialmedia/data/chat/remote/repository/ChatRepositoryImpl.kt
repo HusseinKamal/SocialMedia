@@ -4,7 +4,7 @@ import com.hussein.socialmedia.data.chat.remote.mapper.toDomain
 import com.hussein.socialmedia.data.chat.remote.mapper.toEntity
 import com.hussein.socialmedia.data.chat.remote.model.request.SendMessageRequest
 import com.hussein.socialmedia.data.chat.remote.service.ChatApi
-import com.hussein.socialmedia.data.database.SocialMediaDatabase
+import com.hussein.socialmedia.core.database.SocialMediaDatabase
 import com.hussein.socialmedia.domain.chat.model.Chat
 import com.hussein.socialmedia.domain.chat.model.Message
 import com.hussein.socialmedia.domain.chat.repository.ChatRepository
