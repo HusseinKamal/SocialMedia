@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hussein.socialmedia.core.navigation.NavigationRoot
 import com.hussein.socialmedia.presentation.feed.screen.FeedScreen
 import com.hussein.socialmedia.presentation.setting.screen.SettingsScreen
 import com.hussein.socialmedia.ui.theme.SocialMediaTheme
@@ -24,11 +25,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             SocialMediaTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    FeedScreen(
+                    NavigationRoot()
+                   /* FeedScreen(
                         modifier = Modifier.padding(innerPadding),
                         onNavigateToProfile = {},
                         onNavigateToComments = {}
-                    )
+                    )*/
                     /*SettingsScreen(
                         onNavigateBack = {},
                         onLogoutComplete = {}
