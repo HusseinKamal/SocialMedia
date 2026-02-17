@@ -1,5 +1,7 @@
 package com.hussein.socialmedia.core.navigation
 
+import ChatScreen
+import ProfileScreen
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -15,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import com.hussein.socialmedia.presentation.feed.screen.FeedScreen
 import com.hussein.socialmedia.presentation.setting.screen.SettingsScreen
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
@@ -23,7 +26,7 @@ fun NavigationRoot(
     modifier: Modifier = Modifier
 ) {
     val navigationState = rememberNavigationState(
-        startRoute = Route.TodoList,
+        startRoute = Route.Feed,
         topLevelRoutes = TOP_LEVEL_DESTINATION.keys
     )
     val navigator = remember {
@@ -62,48 +65,25 @@ fun NavigationRoot(
             },
             entries = navigationState.toEntries(
                 entryProvider {
-                    entry<Route.TodoList>(
-                        metadata = ListDetailScene.listPane()
-                    ) {
-                        TodoListScreen(
-                            onTodoClick = {
-                                navigator.navigate(Route.TodoDetail(it))
-                            }
+                    entry<Route.Feed>{
+                        FeedScreen(
+                            onNavigateToProfile = {},
+                            onNavigateToComments = {}
                         )
                     }
-                    entry<Route.TodoFavorites>(
-                        metadata = ListDetailScene.listPane()
-                    ) {
-                        TodoListScreen(
-                            onTodoClick = {
-                                navigator.navigate(Route.TodoDetail(it))
-                            }
+                    entry<Route.Chat>{
+                        ChatScreen(
                         )
                     }
-                    entry<Route.TodoDetail>(
-                        metadata = ListDetailScene.detailPane()
-                    ){
-                        TodoDetailScreen(
-                            todo = it.todo
+                    entry<Route.Profile>{
+                        ProfileScreen(
                         )
                     }
                     entry<Route.Settings> {
                         SettingsScreen(
                             //resultStore = resultStore,
-                            onNavigateBack = {
-                                navigator.navigate(Route.ChangeSettings)
-                            },
                             onLogoutComplete = {
-
                             }
-                        )
-                    }
-                    entry<Route.ChangeSettings> {
-                        ChangeSettingScreen(
-                            onSave = {
-                                navigator.goBack()
-                            },
-                            resultStore = resultStore
                         )
                     }
                 }

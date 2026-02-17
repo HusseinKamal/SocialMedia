@@ -24,18 +24,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SocialMediaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavigationRoot()
-                   /* FeedScreen(
-                        modifier = Modifier.padding(innerPadding),
-                        onNavigateToProfile = {},
-                        onNavigateToComments = {}
-                    )*/
-                    /*SettingsScreen(
-                        onNavigateBack = {},
-                        onLogoutComplete = {}
-                    )*/
-                }
+                NavigationRoot(modifier = Modifier)
             }
         }
     }

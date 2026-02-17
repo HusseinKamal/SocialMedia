@@ -1,14 +1,46 @@
 package com.hussein.socialmedia.presentation.setting.screen
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.DoneAll
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ViewModule
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.hussein.socialmedia.domain.setting.model.FeedLayout
@@ -17,59 +49,42 @@ import com.hussein.socialmedia.presentation.setting.event.SettingsUiEvent
 import com.hussein.socialmedia.presentation.setting.state.SettingsUiState
 import com.hussein.socialmedia.presentation.setting.viewmodel.SettingsViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = hiltViewModel<SettingsViewModel>(),
-    onNavigateBack: () -> Unit = {},
+    viewModel: SettingsViewModel = hiltViewModel(),
     onLogoutComplete: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
 
-    // Handle logout success
-    LaunchedEffect(uiState.logoutSuccess) {
-        if (uiState.logoutSuccess) {
-            onLogoutComplete()
-        }
-    }
-
-    // Handle errors
-    LaunchedEffect(uiState.error) {
-        uiState.error?.let { error ->
-            snackbarHostState.showSnackbar(error)
-            viewModel.onEvent(SettingsUiEvent.ClearError)
-        }
-    }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Settings") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
+    ) {
+        // 1. Header (Tighter padding)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 8.dp, top = 16.dp, bottom = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Settings",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f)
             )
-        },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { paddingValues ->
+        }
+
+        HorizontalDivider(thickness = 0.5.dp, color = Color.LightGray.copy(alpha = 0.5f))
 
         if (uiState.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                contentAlignment = Alignment.Center
-            ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         } else {
             SettingsContent(
                 uiState = uiState,
                 onEvent = viewModel::onEvent,
-                modifier = Modifier.padding(paddingValues)
             )
         }
     }
@@ -81,116 +96,103 @@ fun SettingsContent(
     onEvent: (SettingsUiEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(vertical = 8.dp)
+    LazyColumn(
+        modifier = modifier.fillMaxSize()
     ) {
-        // Account Section
+        // --- Account Section ---
         uiState.userSession?.let { session ->
-            SettingsSection(title = "Account") {
-                SettingsItem(
-                    title = "Email",
-                    subtitle = session.email,
-                    icon = Icons.Default.Email
+            item(key = "section_account") {
+                SettingsSection(title = "Account") {
+                    SettingsItem(
+                        title = "Email",
+                        subtitle = session.email,
+                        icon = Icons.Default.Email
+                    )
+                    SettingsItem(
+                        title = "User ID",
+                        subtitle = session.userId,
+                        icon = Icons.Default.Person
+                    )
+                }
+            }
+            item(key = "divider_account") {
+                HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp), color = Color.LightGray.copy(alpha = 0.3f))
+            }
+        }
+
+        // --- Appearance Section ---
+        item(key = "section_appearance") {
+            SettingsSection(title = "Appearance") {
+                ThemeSettingItem(
+                    currentTheme = uiState.settings.themeMode,
+                    onThemeChange = { onEvent(SettingsUiEvent.UpdateThemeMode(it)) }
                 )
-                SettingsItem(
-                    title = "User ID",
-                    subtitle = session.userId,
-                    icon = Icons.Default.Person
+                FeedLayoutSettingItem(
+                    currentLayout = uiState.settings.feedLayout,
+                    onLayoutChange = { onEvent(SettingsUiEvent.UpdateFeedLayout(it)) }
                 )
             }
-
-            HorizontalDivider()
         }
 
-        // Appearance Section
-        SettingsSection(title = "Appearance") {
-            ThemeSettingItem(
-                currentTheme = uiState.settings.themeMode,
-                onThemeChange = { onEvent(SettingsUiEvent.UpdateThemeMode(it)) }
-            )
-
-            FeedLayoutSettingItem(
-                currentLayout = uiState.settings.feedLayout,
-                onLayoutChange = { onEvent(SettingsUiEvent.UpdateFeedLayout(it)) }
-            )
+        item(key = "divider_appearance") {
+            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp), color = Color.LightGray.copy(alpha = 0.3f))
         }
 
-        HorizontalDivider()
-
-        // Notifications Section
-        SettingsSection(title = "Notifications") {
-            SwitchSettingsItem(
-                title = "Enable Notifications",
-                subtitle = "Receive push notifications",
-                icon = Icons.Default.Notifications,
-                checked = uiState.settings.notificationsEnabled,
-                onCheckedChange = { onEvent(SettingsUiEvent.UpdateNotifications(it)) }
-            )
+        // --- Notifications Section ---
+        item(key = "section_notifications") {
+            SettingsSection(title = "Notifications") {
+                SwitchSettingsItem(
+                    title = "Enable Notifications",
+                    subtitle = "Receive push notifications",
+                    icon = Icons.Default.Notifications,
+                    checked = uiState.settings.notificationsEnabled,
+                    onCheckedChange = { onEvent(SettingsUiEvent.UpdateNotifications(it)) }
+                )
+            }
         }
 
-        HorizontalDivider()
-
-        // Privacy Section
-        SettingsSection(title = "Privacy") {
-            SwitchSettingsItem(
-                title = "Show Online Status",
-                subtitle = "Let others see when you're online",
-                icon = Icons.Default.Visibility,
-                checked = uiState.settings.showOnlineStatus,
-                onCheckedChange = { onEvent(SettingsUiEvent.UpdateShowOnlineStatus(it)) }
-            )
-
-            SwitchSettingsItem(
-                title = "Read Receipts",
-                subtitle = "Let others see when you've read messages",
-                icon = Icons.Default.DoneAll,
-                checked = uiState.settings.readReceiptsEnabled,
-                onCheckedChange = { onEvent(SettingsUiEvent.UpdateReadReceipts(it)) }
-            )
+        item(key = "divider_notifications") {
+            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp), color = Color.LightGray.copy(alpha = 0.3f))
         }
 
-        HorizontalDivider()
-
-        // Media Section
-        SettingsSection(title = "Media & Storage") {
-            SwitchSettingsItem(
-                title = "Auto-play Videos",
-                subtitle = "Videos play automatically in feed",
-                icon = Icons.Default.PlayArrow,
-                checked = uiState.settings.autoPlayVideos,
-                onCheckedChange = { onEvent(SettingsUiEvent.UpdateAutoPlayVideos(it)) }
-            )
+        // --- Privacy Section ---
+        item(key = "section_privacy") {
+            SettingsSection(title = "Privacy") {
+                SwitchSettingsItem(
+                    title = "Show Online Status",
+                    subtitle = "Let others see when you're online",
+                    icon = Icons.Default.Visibility,
+                    checked = uiState.settings.showOnlineStatus,
+                    onCheckedChange = { onEvent(SettingsUiEvent.UpdateShowOnlineStatus(it)) }
+                )
+                SwitchSettingsItem(
+                    title = "Read Receipts",
+                    subtitle = "Let others see when you've read messages",
+                    icon = Icons.Default.DoneAll,
+                    checked = uiState.settings.readReceiptsEnabled,
+                    onCheckedChange = { onEvent(SettingsUiEvent.UpdateReadReceipts(it)) }
+                )
+            }
         }
 
-        HorizontalDivider()
-
-        // Language Section
-        SettingsSection(title = "Language") {
-            SettingsItem(
-                title = "Language",
-                subtitle = uiState.settings.language.uppercase(),
-                icon = Icons.Default.Language,
-                onClick = { /* Show language picker */ }
-            )
+        item(key = "divider_privacy") {
+            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp), color = Color.LightGray.copy(alpha = 0.3f))
         }
 
-        HorizontalDivider()
-
-        // Logout Section
-        SettingsSection(title = "Account Actions") {
-            SettingsItem(
-                title = "Logout",
-                subtitle = "Sign out of your account",
-                icon = Icons.Default.Logout,
-                onClick = { onEvent(SettingsUiEvent.Logout) },
-                tint = MaterialTheme.colorScheme.error
-            )
+        // --- Actions Section (Logout) ---
+        item(key = "section_actions") {
+            SettingsSection(title = "Account Actions") {
+                SettingsItem(
+                    title = "Logout",
+                    subtitle = "Sign out of your account",
+                    icon = Icons.Default.Logout,
+                    onClick = { onEvent(SettingsUiEvent.Logout) },
+                    tint = MaterialTheme.colorScheme.error
+                )
+            }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        // No extra Spacers here! LazyColumn handles the end of the list automatically.
     }
 }
 
@@ -214,9 +216,9 @@ fun SettingsSection(
 fun SettingsItem(
     title: String,
     subtitle: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     onClick: (() -> Unit)? = null,
-    tint: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.onSurface
+    tint: Color = MaterialTheme.colorScheme.onSurface
 ) {
     Surface(
         onClick = { onClick?.invoke() },
@@ -265,7 +267,7 @@ fun SettingsItem(
 fun SwitchSettingsItem(
     title: String,
     subtitle: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {

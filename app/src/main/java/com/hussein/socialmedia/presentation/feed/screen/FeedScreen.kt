@@ -1,5 +1,6 @@
 package com.hussein.socialmedia.presentation.feed.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,7 +25,6 @@ import com.hussein.socialmedia.presentation.feed.event.FeedUiEvent
 import com.hussein.socialmedia.presentation.feed.model.PostUiModel
 import com.hussein.socialmedia.presentation.feed.viewmodel.FeedViewModel
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedScreen(
@@ -40,39 +41,57 @@ fun FeedScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is FeedEffect.ShowError -> {
-                    snackbarHostState.showSnackbar(effect.message)
-                }
-                is FeedEffect.ShowSuccess -> {
-                    snackbarHostState.showSnackbar(effect.message)
-                }
-                is FeedEffect.NavigateToProfile -> {
-                    onNavigateToProfile(effect.userId)
-                }
-                is FeedEffect.NavigateToComments -> {
-                    onNavigateToComments(effect.postId)
-                }
+                is FeedEffect.ShowError -> snackbarHostState.showSnackbar(effect.message)
+                is FeedEffect.ShowSuccess -> snackbarHostState.showSnackbar(effect.message)
+                is FeedEffect.NavigateToProfile -> onNavigateToProfile(effect.userId)
+                is FeedEffect.NavigateToComments -> onNavigateToComments(effect.postId)
             }
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Feed") },
-                actions = {
-                    IconButton(onClick = { viewModel.onEvent(FeedUiEvent.Refresh) }) {
-                        Icon(Icons.Default.Refresh, contentDescription = "Refresh")
-                    }
+    // Use Box to overlay Snackbar on top of the Column
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface)
+        ) {
+            // 1. Custom Header (Replaces TopAppBar)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 8.dp, top = 16.dp, bottom = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Feed",
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.weight(1f)
+                )
+                IconButton(onClick = { viewModel.onEvent(FeedUiEvent.Refresh) }) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = "Refresh"
+                    )
                 }
+            }
+
+            HorizontalDivider(thickness = 0.5.dp, color = Color.LightGray.copy(alpha = 0.5f))
+
+            // 2. Feed Content
+            // We use weight(1f) to ensure the list takes all space but
+            // stops exactly at the Bottom Navigation Bar
+            FeedContent(
+                posts = posts,
+                onEvent = viewModel::onEvent,
+                modifier = Modifier.weight(1f)
             )
-        },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { paddingValues ->
-        FeedContent(
-            posts = posts,
-            modifier = modifier.padding(paddingValues),
-            onEvent = viewModel::onEvent
+        }
+
+        // 3. Manual Snackbar Host (Since Scaffold is gone)
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 }
