@@ -46,10 +46,7 @@ class PostRemoteMediator(
             }
 
             // Fetch data from API
-            val response = postApi.getFeedPosts(
-                page = page,
-                pageSize = state.config.pageSize
-            )
+            val response = postApi.getFeedPosts()
 
             // Store data in database
             database.withTransaction {
@@ -62,7 +59,7 @@ class PostRemoteMediator(
             }
 
             MediatorResult.Success(
-                endOfPaginationReached = !response.hasMore
+                endOfPaginationReached = response.posts.isNotEmpty()
             )
         } catch (e: IOException) {
             MediatorResult.Error(e)

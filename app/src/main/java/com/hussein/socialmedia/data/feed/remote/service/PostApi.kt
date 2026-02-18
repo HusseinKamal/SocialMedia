@@ -20,14 +20,9 @@ interface PostApi {
 
     /**
      * Get paginated feed posts
-     * @param page Page number (starts at 1)
-     * @param pageSize Number of posts per page
      */
-    @GET("api/posts/feed")
-    suspend fun getFeedPosts(
-        @Query("page") page: Int,
-        @Query("page_size") pageSize: Int
-    ): PostsResponseDto
+    @GET("posts")
+    suspend fun getFeedPosts(): PostsResponseDto
 
     /**
      * Get posts by user ID

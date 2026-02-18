@@ -143,7 +143,7 @@ class PostRepositoryImpl @Inject constructor(
             val post = postDto.toDomain()
 
             // Update cache
-            postDao.updateLikeStatus(postId, true, postDto.likesCount)
+            //postDao.updateLikeStatus(postId, true, postDto.likesCount)
 
             Resource.Success(post)
         } catch (e: Exception) {
@@ -157,7 +157,7 @@ class PostRepositoryImpl @Inject constructor(
             val post = postDto.toDomain()
 
             // Update cache
-            postDao.updateLikeStatus(postId, false, postDto.likesCount)
+            //postDao.updateLikeStatus(postId, false, postDto.likesCount)
 
             Resource.Success(post)
         } catch (e: Exception) {

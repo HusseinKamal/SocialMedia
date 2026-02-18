@@ -6,15 +6,15 @@ package com.hussein.socialmedia.presentation.feed.model
  */
 data class PostUiModel(
     val id: String,
-    val userId: String,
-    val username: String,
+    val userId: String?,
+    val username: String?,
     val userAvatarUrl: String?,
-    val content: String,
+    val content: String?,
     val imageUrl: String?,
-    val likesCount: Int,
-    val commentsCount: Int,
-    val sharesCount: Int,
-    val isLiked: Boolean,
-    val isSaved: Boolean,
-    val formattedTime: String
+    val likesCount: Int?,
+    val commentsCount: Int?,
+    val sharesCount: Int?,
+    val isLiked: Boolean = false,
+    val isSaved: Boolean = false,
+    val formattedTime: String?
 )

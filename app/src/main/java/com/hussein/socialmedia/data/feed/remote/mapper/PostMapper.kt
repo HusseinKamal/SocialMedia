@@ -7,25 +7,35 @@ import com.hussein.socialmedia.domain.feed.model.Post
 /**
  * Mapper functions for converting between Post model types.
  */
-
-/**
- * Maps PostDto (from API) to PostEntity (for database)
- */
 fun PostDto.toEntity(): PostEntity {
+
+    val likes = reactions?.likes ?: 0
+    val dislikes = reactions?.dislikes ?: 0
+
     return PostEntity(
-        id = id,
-        userId = userId,
-        username = username,
-        userAvatarUrl = userAvatarUrl,
-        content = content,
-        imageUrl = imageUrl,
-        likesCount = likesCount,
-        commentsCount = commentsCount,
-        sharesCount = sharesCount,
-        isLiked = isLiked,
-        isSaved = isSaved,
-        createdAt = createdAt,
-        updatedAt = updatedAt
+        id = id?.toString() ?: "",
+
+        userId = userId?.toString() ?: "",
+        username = "User $userId",
+        userAvatarUrl = null,
+
+        content = buildString {
+            append(title ?: "")
+            if (!body.isNullOrBlank()) {
+                append("\n\n")
+                append(body)
+            }
+        },
+        imageUrl = null,
+        likesCount = likes,
+        commentsCount = dislikes,
+        sharesCount = views ?: 0,
+        isLiked = false,
+        isSaved = false,
+        createdAt = System.currentTimeMillis(),
+        updatedAt = null,
+
+        cachedAt = System.currentTimeMillis()
     )
 }
 
@@ -34,19 +44,19 @@ fun PostDto.toEntity(): PostEntity {
  */
 fun PostDto.toDomain(): Post {
     return Post(
-        id = id,
-        userId = userId,
-        username = username,
-        userAvatarUrl = userAvatarUrl,
-        content = content,
-        imageUrl = imageUrl,
-        likesCount = likesCount,
-        commentsCount = commentsCount,
-        sharesCount = sharesCount,
-        isLiked = isLiked,
-        isSaved = isSaved,
-        createdAt = createdAt,
-        updatedAt = updatedAt
+        id = id?.toString() ?: "",
+        userId = userId?.toString() ?: "",
+        username = "User $userId", // fake until real API exists
+        userAvatarUrl = null,
+        content = "${title.orEmpty()}\n\n${body.orEmpty()}",
+        imageUrl = null,
+        likesCount = reactions?.likes ?: 0,
+        commentsCount = reactions?.dislikes ?: 0, // fake mapping
+        sharesCount = views ?: 0,
+        isLiked = false,
+        isSaved = false,
+        createdAt = System.currentTimeMillis(),
+        updatedAt = null
     )
 }
 

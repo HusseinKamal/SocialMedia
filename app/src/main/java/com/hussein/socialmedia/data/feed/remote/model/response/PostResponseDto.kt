@@ -7,11 +7,14 @@ import com.google.gson.annotations.SerializedName
  */
 data class PostsResponseDto(
     @SerializedName("posts")
-    val posts: List<PostDto>,
+    val posts: List<PostDto> = emptyList(),
 
-    @SerializedName("next_page")
-    val nextPage: Int?,
+    @SerializedName("total")
+    val total: Int?,
 
-    @SerializedName("has_more")
-    val hasMore: Boolean
+    @SerializedName("skip")
+    val skip: Int?,
+
+    @SerializedName("limit")
+    val limit: Int?,
 )

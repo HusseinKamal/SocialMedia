@@ -4,43 +4,28 @@ import com.google.gson.annotations.SerializedName
 /**
  * Data Transfer Object for Post from API.
  */
+
 data class PostDto(
+
     @SerializedName("id")
-    val id: String,
+    val id: Int?,
 
-    @SerializedName("user_id")
-    val userId: String,
+    @SerializedName("title")
+    val title: String?,
 
-    @SerializedName("username")
-    val username: String,
+    @SerializedName("body")
+    val body: String?,
 
-    @SerializedName("user_avatar_url")
-    val userAvatarUrl: String?,
+    @SerializedName("tags")
+    val tags: List<String> = emptyList(),
 
-    @SerializedName("content")
-    val content: String,
+    @SerializedName("reactions")
+    val reactions: ReactionsDto?,
 
-    @SerializedName("image_url")
-    val imageUrl: String?,
+    @SerializedName("views")
+    val views: Int?,
 
-    @SerializedName("likes_count")
-    val likesCount: Int,
-
-    @SerializedName("comments_count")
-    val commentsCount: Int,
-
-    @SerializedName("shares_count")
-    val sharesCount: Int,
-
-    @SerializedName("is_liked")
-    val isLiked: Boolean,
-
-    @SerializedName("is_saved")
-    val isSaved: Boolean,
-
-    @SerializedName("created_at")
-    val createdAt: Long,
-
-    @SerializedName("updated_at")
-    val updatedAt: Long?
+    @SerializedName("userId")
+    val userId: Int?
 )
+

@@ -73,6 +73,8 @@ val serializersConfig = SavedStateConfiguration {
             subclass(Route.Feed::class, Route.Feed.serializer())
             subclass(Route.Chat::class, Route.Chat.serializer())
             subclass(Route.Profile::class, Route.Profile.serializer())
+            subclass(Route.Login::class, Route.Login.serializer())
+            subclass(Route.Register::class, Route.Register.serializer())
             subclass(Route.Settings::class, Route.Settings.serializer())
         }
     }
