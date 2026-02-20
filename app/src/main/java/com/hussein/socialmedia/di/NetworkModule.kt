@@ -1,9 +1,10 @@
 package com.hussein.socialmedia.di
 
+import com.hussein.socialmedia.core.datastore.EncryptedPreferences
+import com.hussein.socialmedia.data.auth.service.AuthApi
 import com.hussein.socialmedia.data.chat.remote.service.ChatApi
 import com.hussein.socialmedia.data.feed.remote.service.PostApi
 import com.hussein.socialmedia.data.profile.remote.service.UserApi
-import kotlin.jvm.java
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,11 +23,14 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    // DummyJSON API base URL
     private const val BASE_URL = "https://dummyjson.com/"
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(
+        encryptedPreferences: EncryptedPreferences
+    ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
@@ -34,13 +38,18 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor { chain ->
-                val request = chain.request().newBuilder()
+                val token = encryptedPreferences.getAuthToken()
+
+                val requestBuilder = chain.request().newBuilder()
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Accept", "application/json")
-                    // Add authentication token here if needed
-                    // .addHeader("Authorization", "Bearer $token")
-                    .build()
-                chain.proceed(request)
+
+                // Add authorization header if token exists
+                if (!token.isNullOrBlank()) {
+                    requestBuilder.addHeader("Authorization", "Bearer $token")
+                }
+
+                chain.proceed(requestBuilder.build())
             }
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
@@ -56,6 +65,12 @@ object NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(retrofit: Retrofit): AuthApi {
+        return retrofit.create(AuthApi::class.java)
     }
 
     @Provides

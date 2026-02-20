@@ -1,9 +1,11 @@
 package com.hussein.socialmedia.di
 
+import com.hussein.socialmedia.data.auth.repository.AuthRepositoryImpl
 import com.hussein.socialmedia.data.chat.remote.repository.ChatRepositoryImpl
 import com.hussein.socialmedia.data.feed.remote.repository.PostRepositoryImpl
 import com.hussein.socialmedia.data.profile.remote.repository.UserRepositoryImpl
 import com.hussein.socialmedia.data.setting.repository.PreferencesRepositoryImpl
+import com.hussein.socialmedia.domain.auth.repository.AuthRepository
 import com.hussein.socialmedia.domain.chat.repository.ChatRepository
 import com.hussein.socialmedia.domain.feed.repository.PostRepository
 import com.hussein.socialmedia.domain.profile.repository.UserRepository
@@ -20,6 +22,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
 
     @Binds
     @Singleton

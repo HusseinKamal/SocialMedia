@@ -42,26 +42,35 @@ fun rememberNavigationState(
     startRoute: NavKey,
     topLevelRoutes: Set<NavKey>
 ): NavigationState {
-    val topLevelRoute = rememberSerializable(
+
+    // 1. Define all possible roots (Tabs + Auth + Splash)
+    // This ensures every major flow has a backstack to hold its entries.
+    val allPossibleRoots = remember(topLevelRoutes) {
+        topLevelRoutes + setOf(Route.Login, Route.Register)
+    }
+
+    // 2. State to track the current active root (Start at Splash or Login)
+    val topLevelRouteState = rememberSerializable(
         startRoute,
-        topLevelRoutes,
+        allPossibleRoots,
         configuration = serializersConfig,
         serializer = MutableStateSerializer(PolymorphicSerializer(NavKey::class))
     ) {
         mutableStateOf(startRoute)
     }
 
-    val backStacks = topLevelRoutes.associateWith { key ->
+    // 3. Create a backstack for every possible root
+    val backStacks = allPossibleRoots.associateWith { key ->
         rememberNavBackStack(
             configuration = serializersConfig,
-            key
+            key // The backstack is initialized with the root key itself
         )
     }
 
-    return remember(startRoute, topLevelRoutes) {
+    return remember(startRoute, allPossibleRoots) {
         NavigationState(
             startRoute = startRoute,
-            topLevelRoute = topLevelRoute,
+            topLevelRoute = topLevelRouteState,
             backStacks = backStacks
         )
     }
