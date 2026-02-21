@@ -13,6 +13,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.hussein.socialmedia.presentation.feed.screen.FeedScreen
 import com.hussein.socialmedia.presentation.login.screen.LoginScreen
+import com.hussein.socialmedia.presentation.profile.screen.EditProfileScreen
 import com.hussein.socialmedia.presentation.register.screen.RegisterScreen
 import com.hussein.socialmedia.presentation.setting.screen.SettingsScreen
 
@@ -64,7 +65,7 @@ fun NavigationRoot() {
                     }
                     entry<Route.Feed>{
                         FeedScreen(
-                            onNavigateToProfile = {},
+                            onNavigateToProfile = { navigator.navigate(Route.Profile) },
                             onNavigateToComments = {}
                         )
                     }
@@ -74,7 +75,11 @@ fun NavigationRoot() {
                     }
                     entry<Route.Profile>{
                         ProfileScreen(
+                            onNavigateToEditProfile = { navigator.navigate(Route.EditProfile) }
                         )
+                    }
+                    entry<Route.EditProfile>{
+                        EditProfileScreen()
                     }
                     entry<Route.Settings> {
                         SettingsScreen(
