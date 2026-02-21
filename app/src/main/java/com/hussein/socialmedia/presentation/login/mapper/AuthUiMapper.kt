@@ -77,16 +77,19 @@ fun String.validateUsername(): ValidationResultUiModel {
  * Validates email and returns UI model
  */
 fun String.validateEmail(): ValidationResultUiModel {
-    return when {
-        this.isBlank() -> ValidationResultUiModel(
-            isValid = false,
-            errorMessage = "Email cannot be empty"
-        )
-        !android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches() -> ValidationResultUiModel(
-            isValid = false,
-            errorMessage = "Please enter a valid email address"
-        )
-        else -> ValidationResultUiModel(isValid = true)
+    if (this.isBlank()) {
+        return ValidationResultUiModel(isValid = false, errorMessage = "Email cannot be empty")
+    }
+
+    // Standard RFC 5322 compliant Regex (Works on local JVM and Android)
+    val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$"
+
+    val isValid = Regex(emailRegex).matches(this)
+
+    return if (isValid) {
+        ValidationResultUiModel(isValid = true)
+    } else {
+        ValidationResultUiModel(isValid = false, errorMessage = "Please enter a valid email address")
     }
 }
 

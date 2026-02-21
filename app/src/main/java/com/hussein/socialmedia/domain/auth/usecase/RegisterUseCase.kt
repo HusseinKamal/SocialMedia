@@ -21,48 +21,33 @@ class RegisterUseCase @Inject constructor(
         password: String,
         confirmPassword: String
     ): Resource<AuthResult> {
-        // Validate inputs
-        if (firstName.isBlank()) {
-            return Resource.Error("First name cannot be empty")
-        }
+        // 1. Trim inputs immediately
+        val fName = firstName.trim()
+        val lName = lastName.trim()
+        val uName = username.trim()
+        val eMail = email.trim()
 
-        if (lastName.isBlank()) {
-            return Resource.Error("Last name cannot be empty")
-        }
+        // 2. Perform validation on trimmed data
+        if (fName.isBlank()) return Resource.Error("First name cannot be empty")
+        if (lName.isBlank()) return Resource.Error("Last name cannot be empty")
+        if (uName.isBlank()) return Resource.Error("Username cannot be empty")
+        if (uName.length < 3) return Resource.Error("Username must be at least 3 characters")
+        if (eMail.isBlank()) return Resource.Error("Email cannot be empty")
 
-        if (username.isBlank()) {
-            return Resource.Error("Username cannot be empty")
-        }
-
-        if (username.length < 3) {
-            return Resource.Error("Username must be at least 3 characters")
-        }
-
-        if (email.isBlank()) {
-            return Resource.Error("Email cannot be empty")
-        }
-
-        if (!isValidEmail(email)) {
+        // This will now PASS because eMail has no leading/trailing spaces
+        if (!isValidEmail(eMail)) {
             return Resource.Error("Please enter a valid email address")
         }
 
-        if (password.isBlank()) {
-            return Resource.Error("Password cannot be empty")
-        }
-
-        if (password.length < 6) {
-            return Resource.Error("Password must be at least 6 characters")
-        }
-
-        if (password != confirmPassword) {
-            return Resource.Error("Passwords do not match")
-        }
+        if (password.isBlank()) return Resource.Error("Password cannot be empty")
+        if (password.length < 6) return Resource.Error("Password must be at least 6 characters")
+        if (password != confirmPassword) return Resource.Error("Passwords do not match")
 
         val registerData = RegisterData(
-            firstName = firstName.trim(),
-            lastName = lastName.trim(),
-            username = username.trim(),
-            email = email.trim(),
+            firstName = fName,
+            lastName = lName,
+            username = uName,
+            email = eMail,
             password = password,
             confirmPassword = confirmPassword
         )
@@ -71,6 +56,7 @@ class RegisterUseCase @Inject constructor(
     }
 
     private fun isValidEmail(email: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\$"
+        return email.matches(emailRegex.toRegex())
     }
 }
