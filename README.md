@@ -455,4 +455,17 @@ This Social Media App demonstrates **production-grade Android development** with
 - ✅ **Modern UI** with Jetpack Compose
 - ✅ **Comprehensive Testing** strategy
 
-The architecture is **scalable**, **testable**, and follows **Android best practices** for building professional applications.
+
+## Overview
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/a8bfee29-2cf0-475d-9814-93a8560792dd" />
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/6c9327ad-1ce0-41b5-9907-bba951a0f616" />
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/5d9a66ef-599a-4203-9853-a5e4b588c5c7" />
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/b62968ba-e777-4f50-8c31-8c842e923a72" />
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/3daf718b-ac15-42d5-ae3a-ea4046ca8169" />
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/96021b72-7e30-433e-b63f-2a3ad2bac3f0" />
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/b311667f-aba3-45e6-a6a4-222cae62b271" />
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/0d046d1e-2831-4d83-9a4b-876a83b2cbc1" />
+
+
+
+
