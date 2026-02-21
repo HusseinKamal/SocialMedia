@@ -1,7 +1,7 @@
 package com.hussein.socialmedia.core.navigation
 
 import ChatScreen
-import ProfileScreen
+import com.hussein.socialmedia.presentation.profile.screen.ProfileScreen
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
