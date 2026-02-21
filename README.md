@@ -465,6 +465,10 @@ This Social Media App demonstrates **production-grade Android development** with
 <img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/96021b72-7e30-433e-b63f-2a3ad2bac3f0" />
 <img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/b311667f-aba3-45e6-a6a4-222cae62b271" />
 <img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/0d046d1e-2831-4d83-9a4b-876a83b2cbc1" />
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/71a3625d-acee-46eb-a0a2-ef9947b43cb9" />
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/839c14fd-11d9-4215-b347-6db3e7587b24" />
+<img width="270" height="480" alt="image" src="https://github.com/user-attachments/assets/a2366509-e875-43de-a8e8-ee262f6d23db" />
+
 
 
 
