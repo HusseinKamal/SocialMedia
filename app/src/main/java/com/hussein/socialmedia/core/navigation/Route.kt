@@ -18,6 +18,9 @@ sealed interface Route: NavKey {
     data object EditProfile : Route
 
     @Serializable
+    data object FriendsList : Route
+
+    @Serializable
     data object Login : Route
 
     @Serializable

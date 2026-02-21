@@ -16,9 +16,9 @@ val TOP_LEVEL_DESTINATION = mapOf(
         icon = Icons.Outlined.Home,
         title = "Feed"
     ),
-    Route.Chat to BottomNavItem(
+    Route.FriendsList to BottomNavItem(
         icon = Icons.Outlined.Chat,
-        title = "Chat"
+        title = "Friends"
     ),
     Route.Profile to BottomNavItem(
         icon = Icons.Outlined.AccountCircle,

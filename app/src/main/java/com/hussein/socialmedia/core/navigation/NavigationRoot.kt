@@ -14,6 +14,8 @@ import androidx.navigation3.ui.NavDisplay
 import com.hussein.socialmedia.presentation.feed.screen.FeedScreen
 import com.hussein.socialmedia.presentation.login.screen.LoginScreen
 import com.hussein.socialmedia.presentation.profile.screen.EditProfileScreen
+import com.hussein.socialmedia.presentation.profile.screen.FriendsList
+import com.hussein.socialmedia.presentation.profile.screen.FriendsListScreen
 import com.hussein.socialmedia.presentation.register.screen.RegisterScreen
 import com.hussein.socialmedia.presentation.setting.screen.SettingsScreen
 
@@ -80,6 +82,14 @@ fun NavigationRoot() {
                     }
                     entry<Route.EditProfile>{
                         EditProfileScreen()
+                    }
+                    entry<Route.FriendsList>{
+                        FriendsListScreen(
+                            onNavigateBack = { navigator.goBack() },
+                            onNavigateToChat = {
+                                navigator.navigate(Route.Chat)
+                            }
+                        )
                     }
                     entry<Route.Settings> {
                         SettingsScreen(

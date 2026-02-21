@@ -43,7 +43,7 @@ fun EditProfileScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AsyncImage(
-                    model = rememberAsyncImagePainter(model = state.avatarUrl),
+                    model = state.avatarUrl,
                     contentDescription = "Profile Picture",
                     modifier = Modifier
                         .size(120.dp)
