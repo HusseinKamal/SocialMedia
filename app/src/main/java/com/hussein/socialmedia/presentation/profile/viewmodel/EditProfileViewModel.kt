@@ -30,7 +30,9 @@ class EditProfileViewModel @Inject constructor(
             if (result is Resource.Success) {
                 _state.value = _state.value.copy(
                     username = result.data.username,
-                    fullName = result.data.displayName
+                    fullName = result.data.displayName,
+                    bio = result.data.bio,
+                    avatarUrl = result.data.avatarUrl
                 )
             }
         }.launchIn(viewModelScope)
@@ -44,12 +46,16 @@ class EditProfileViewModel @Inject constructor(
         _state.value = _state.value.copy(fullName = fullName)
     }
 
+    fun onBioChanged(bio: String) {
+        _state.value = _state.value.copy(bio = bio)
+    }
+
     fun saveProfile() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
             userRepository.updateProfile(
                 displayName = state.value.fullName,
-                bio = null, // Not implemented yet
+                bio = state.value.bio,
                 avatarUrl = null // Not implemented yet
             )
             _state.value = _state.value.copy(isLoading = false)

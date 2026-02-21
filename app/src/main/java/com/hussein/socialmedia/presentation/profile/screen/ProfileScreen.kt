@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -17,13 +16,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.hussein.socialmedia.presentation.profile.viewmodel.ProfileViewModel
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    viewModel: ProfileViewModel = hiltViewModel<ProfileViewModel>(),
+    viewModel: ProfileViewModel = hiltViewModel(),
     onNavigateToEditProfile: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
@@ -49,8 +48,8 @@ fun ProfileScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     state.user?.let {
-                        Image(
-                            painter = rememberAsyncImagePainter(model = it.image),
+                        AsyncImage(
+                            model = it.image,
                             contentDescription = "Profile Picture",
                             modifier = Modifier
                                 .size(120.dp)

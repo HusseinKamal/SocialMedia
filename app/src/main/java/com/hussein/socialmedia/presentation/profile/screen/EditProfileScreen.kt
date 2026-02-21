@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
@@ -15,14 +17,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.hussein.socialmedia.presentation.profile.viewmodel.EditProfileViewModel
 
 @Composable
 fun EditProfileScreen(
     modifier: Modifier = Modifier,
-    viewModel: EditProfileViewModel = hiltViewModel<EditProfileViewModel>()
+    viewModel: EditProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -33,8 +39,18 @@ fun EditProfileScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                AsyncImage(
+                    model = rememberAsyncImagePainter(model = state.avatarUrl),
+                    contentDescription = "Profile Picture",
+                    modifier = Modifier
+                        .size(120.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.height(16.dp))
                 OutlinedTextField(
                     value = state.username,
                     onValueChange = viewModel::onUsernameChanged,
@@ -44,6 +60,11 @@ fun EditProfileScreen(
                     value = state.fullName,
                     onValueChange = viewModel::onFullNameChanged,
                     label = { Text("Full Name") })
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = state.bio ?: "",
+                    onValueChange = viewModel::onBioChanged,
+                    label = { Text("Bio") })
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = viewModel::saveProfile) {
                     Text("Save")

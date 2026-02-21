@@ -2,6 +2,7 @@ package com.hussein.socialmedia.presentation.profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hussein.socialmedia.domain.auth.model.AuthUser
 import com.hussein.socialmedia.domain.profile.repository.UserRepository
 import com.hussein.socialmedia.domain.util.Resource
 import com.hussein.socialmedia.presentation.profile.mapper.toAuthUser
@@ -36,6 +37,7 @@ class ProfileViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     state.value.copy(
+                        user = AuthUser(), // Use default AuthUser on error
                         isLoading = false
                     )
                 }
