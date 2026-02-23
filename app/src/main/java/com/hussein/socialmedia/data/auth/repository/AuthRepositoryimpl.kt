@@ -81,7 +81,7 @@ class AuthRepositoryImpl @Inject constructor(
 
             // Register user (DummyJSON simulates this)
             val userResponse = authApi.register(request)
-            Resource.Success(userResponse)
+            Success(userResponse)
 
             // After registration, automatically login
             val loginResult = login(
@@ -153,7 +153,7 @@ class AuthRepositoryImpl @Inject constructor(
 
             Success(authResult)
         } catch (e: Exception) {
-            Resource.Error("Failed to refresh token: ${e.message}", e)
+            Error("Failed to refresh token: ${e.message}", e)
         }
     }
 }
