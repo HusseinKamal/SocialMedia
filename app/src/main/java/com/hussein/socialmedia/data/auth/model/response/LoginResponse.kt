@@ -7,26 +7,26 @@ data class LoginResponse(
     val id: Int,
 
     @SerializedName("username")
-    val username: String,
+    val username: String?,
 
     @SerializedName("email")
-    val email: String,
+    val email: String?,
 
     @SerializedName("firstName")
-    val firstName: String,
+    val firstName: String?,
 
     @SerializedName("lastName")
-    val lastName: String,
+    val lastName: String?,
 
     @SerializedName("gender")
-    val gender: String,
+    val gender: String?,
 
     @SerializedName("image")
-    val image: String,
+    val image: String?,
 
     @SerializedName("token")
-    val token: String,
+    val token: String?,
 
     @SerializedName("refreshToken")
-    val refreshToken: String
+    val refreshToken: String?
 )

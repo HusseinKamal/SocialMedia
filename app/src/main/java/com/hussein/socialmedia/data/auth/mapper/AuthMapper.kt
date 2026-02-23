@@ -13,16 +13,16 @@ fun LoginResponse.toAuthResult(): AuthResult {
     return AuthResult(
         user = AuthUser(
             id = id.toString(),
-            username = username,
-            email = email,
-            firstName = firstName,
-            lastName = lastName,
+            username = username.orEmpty(),
+            email = email.orEmpty(),
+            firstName = firstName.orEmpty(),
+            lastName = lastName.orEmpty(),
             fullName = "$firstName $lastName",
             image = image,
             gender = gender
         ),
-        token = token,
-        refreshToken = refreshToken
+        token = token.orEmpty(),
+        refreshToken = refreshToken.orEmpty()
     )
 }
 
@@ -31,10 +31,10 @@ fun LoginResponse.toAuthResult(): AuthResult {
  */
 fun LoginResponse.toUserSession(): UserSession {
     return UserSession(
-        authToken = token,
-        refreshToken = refreshToken,
+        authToken = token.orEmpty(),
+        refreshToken = refreshToken.orEmpty(),
         userId = id.toString(),
-        email = email,
+        email = email.orEmpty(),
         isLoggedIn = true
     )
 }
