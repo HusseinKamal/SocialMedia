@@ -85,7 +85,7 @@ fun NavigationRoot() {
                     }
                     entry<Route.FriendsList>{
                         FriendsListScreen(
-                            onNavigateBack = { navigator.goBack() },
+                            //onNavigateBack = { navigator.goBack() },
                             onNavigateToChat = {
                                 navigator.navigate(Route.Chat)
                             }
