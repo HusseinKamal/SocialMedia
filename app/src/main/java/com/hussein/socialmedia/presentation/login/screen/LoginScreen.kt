@@ -206,8 +206,7 @@ fun LoginScreen(
                 // Login Button
                 Button(
                     onClick = {
-                        //viewModel.onEvent(LoginUiEvent.Login)
-                        onNavigateToHome()
+                        viewModel.onEvent(LoginUiEvent.Login)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
