@@ -441,6 +441,48 @@ User Action → Intent (Event) → ViewModel → State Update → UI Render
 - Shared modules
 - Dynamic delivery
 
+### Leak Canary
+
+Automatic Detection
+
+LeakCanary automatically watches for leaks in:
+
+✅ Activities - Destroyed but still in memory
+
+✅ Fragments - Not properly released
+
+✅ ViewModels - Not cleared on destroy
+
+✅ View roots - Detached views still referenced
+
+✅ Services - Stopped but still referenced
+
+✅ No code changes needed
+
+✅ Works out of the box
+
+✅ Monitors all common leak sources
+
+Detailed Reports:
+
+✅ Leak trace path
+
+✅ Memory size retained
+
+✅ Suggested fixes
+
+✅ Library leak identification
+
+Developer Friendly:
+
+✅ In-app leak viewer
+
+✅ Export leak reports
+
+✅ Group similar leaks
+
+✅ Prioritize by size
+
 ## Summary
 
 This Social Media App demonstrates **production-grade Android development** with:
